@@ -36,5 +36,5 @@ A **modern React + TypeScript** application that displays popular GitHub users (
 1. **Clone the repo**:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/github-users-app.git
+git clone https://github.com/https://github.com/GemiGemiMouy/github-users-app
 cd github-users-app
