@@ -1,40 +1,75 @@
 # 🚀 GitHub Users Explorer
 
-A **modern React + TypeScript** application that displays popular GitHub users (followers > 1000) with clean cards, search functionality, and links to GitHub profiles.
+A **modern React + TypeScript** application that displays popular GitHub users (followers > 1000) with **clean cards**, **search**, **sorting**, and clickable links to GitHub profiles, followers, and following.  
 
 ---
 
+## 🔗 Live Demo
+
+Check out the live version here:  
+[https://github-users-app-tawny.vercel.app/](https://github-users-app-tawny.vercel.app/)
+
+---
 
 ## ✨ Features
 
-- Browse **popular GitHub users** with follower counts > 1000
-- **Search users** by name or company
-- Modern **user cards** display:
-  - Avatar
-  - Name
-  - Company (highlighted for top companies like Google, Apple, Facebook, etc.)
-  - Followers & Following (linked to GitHub)
-  - GitHub profile button
-- Fully **responsive** layout
-- **Clean, modern fonts** and UI
-- Error handling for API requests
+- Browse **popular GitHub users** (followers > 1000)  
+- **Search users** by name or company  
+- **Sort users** by:
+  - Name A-Z  
+  - Followers ↓  
+- **User cards** include:
+  - Avatar  
+  - Name  
+  - Company (highlight top companies like Google, Apple, Facebook)  
+  - **Followers & Following** (clickable links to GitHub profiles)  
+  - **View GitHub Profile** button  
+  - **Favorite** toggle  
+- Fully **responsive design**  
+- **Modern fonts** and clean UI  
+- Error handling for API requests  
 
 ---
 
 ## 🛠 Tech Stack
 
-- **React** + **TypeScript**
-- **Material-UI (MUI)** for UI components
-- **Axios** for API calls
-- **GitHub REST API** for user data
-- Environment variables for **secure GitHub token**
+- **React** + **TypeScript**  
+- **Material-UI (MUI)** for UI components  
+- **Axios** for API calls  
+- **GitHub REST API** for user data  
+- **Environment variables** for secure GitHub token  
+
+---
+## 🔗 Usage
+
+- **Search users**: type a name or company in the search bar.  
+- **Sort users**: choose "Name A-Z" or "Followers ↓" from the dropdown.  
+- **View Profile**: click the GitHub icon or "View Profile" button on a card.  
+- **Followers / Following**: click the numbers to open GitHub followers/following pages.  
+- **Favorites**: click the star icon to mark/unmark a user (saved in local storage).  
 
 ---
 
 ## ⚡ Getting Started
 
-1. **Clone the repo**:
+1. **Clone the repository**:
 
 ```bash
-git clone https://github.com/https://github.com/GemiGemiMouy/github-users-app
+git clone https://github.com/GemiGemiMouy/github-users-app.git
 cd github-users-app
+```
+2. **Install dependencies**
+  ```
+  npm install
+  # or
+  yarn install
+
+3. **Create file .env**
+```
+  REACT_APP_GITHUB_TOKEN=your_github_personal_access_token
+
+4. **Start server**
+```
+npm start    
+  # or yarn start
+
