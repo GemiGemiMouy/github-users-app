@@ -56,35 +56,8 @@ Check out the live version here:
 ```bash
 git clone https://github.com/GemiGemiMouy/github-users-app.git
 cd github-users-app
-<<<<<<< HEAD
-```
-
-2. Install dependencies:
-
----
 npm install
-# or
-yarn install
-
----
-3. Create a .env file in the root and add your GitHub token:
-
-REACT_APP_GITHUB_TOKEN=your_github_personal_access_token
----
-4. Start the development server:
-
+.env (REACT_APP_GITHUB_TOKEN=your_github_personal_access_token)
 npm start
-# or
-yarn start
-
-=======
-npm install
-
-```
-
-1. **Create .env**:
-REACT_APP_GITHUB_TOKEN=your_github_personal_access_token
->>>>>>> 565a10e (Update README with features, usage, and getting started instructions)
-
 
 
