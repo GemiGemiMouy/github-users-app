@@ -1,36 +1,61 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Typography, Grid, Alert } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Grid,
+  Box,
+  AppBar,
+  Toolbar,
+  Paper,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import SearchIcon from "@mui/icons-material/Search";
 import UserCard from "../components/UserCard";
-import SearchBar from "../components/SearchBar";
 import { User } from "../types/User";
-import logo from "../assets/logo.jpg";
+import logo from "../assets/logormbg.png";
+import SearchBar from "../components/SearchBar";
+
+
+// Define the sorting options type
+type SortOption = "name" | "followers";
 
 const Home: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [search, setSearch] = useState("");
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [sortBy, setSortBy] = useState<SortOption>("name");
+  const [favorites, setFavorites] = useState<number[]>(() => {
+    const saved = localStorage.getItem("favorites");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   const token = process.env.REACT_APP_GITHUB_TOKEN;
   const config = token ? { headers: { Authorization: `token ${token}` } } : {};
 
+  // Fetch GitHub users
   useEffect(() => {
     const fetchUsers = async () => {
+      setLoading(true);
       try {
-        setError("");
-
-        // 1️⃣ Fetch popular users with followers > 1000
         const res = await axios.get(
-          "https://api.github.com/search/users?q=followers:>1000&per_page=25",
+          "https://api.github.com/search/users?q=followers:>1500&per_page=25",
           config
         );
         const basicUsers = res.data.items;
-
-        // 2️⃣ Fetch detailed info for each user
         const detailedUsers: User[] = await Promise.all(
           basicUsers.map(async (u: any) => {
-            const details = await axios.get(`https://api.github.com/users/${u.login}`, config);
+            const details = await axios.get(
+              `https://api.github.com/users/${u.login}`,
+              config
+            );
             return {
               id: details.data.id,
               login: details.data.login,
@@ -43,63 +68,170 @@ const Home: React.FC = () => {
             };
           })
         );
-
         setUsers(detailedUsers);
         setFilteredUsers(detailedUsers);
       } catch (err) {
         console.error(err);
-        setError("Failed to fetch GitHub users. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
-
     fetchUsers();
   }, []);
 
-  // Filter users by name or company
+  // Filter & sort users
   useEffect(() => {
-    const lower = search.toLowerCase();
-    setFilteredUsers(
-      users.filter(
-        (u) =>
-          u.name.toLowerCase().includes(lower) ||
-          (u.company && u.company.toLowerCase().includes(lower))
-      )
+    let filtered = users.filter(
+      (u) =>
+        u.name.toLowerCase().includes(search.toLowerCase()) ||
+        (u.company && u.company.toLowerCase().includes(search.toLowerCase()))
     );
-  }, [search, users]);
+
+    if (sortBy === "name") {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === "followers") {
+      filtered.sort((a, b) => b.followers - a.followers);
+    }
+
+    setFilteredUsers(filtered);
+  }, [search, users, sortBy]);
+
+  // Favorite toggle
+  const toggleFavorite = (id: number) => {
+    let updated: number[];
+    if (favorites.includes(id)) {
+      updated = favorites.filter((f) => f !== id);
+    } else {
+      updated = [...favorites, id];
+    }
+    setFavorites(updated);
+    localStorage.setItem("favorites", JSON.stringify(updated));
+  };
 
   return (
-    <Container sx={{ py: 4 }}>
-      <img
+    <Box sx={{ minHeight: "100vh", bgcolor: "#f5f5f5", color: "#333", pb: 4 }}>
+     <AppBar
+  position="sticky"
+  elevation={0}
+  sx={{
+    backgroundColor: "#fff",
+    color: "#333",
+    mb: 4,
+    borderBottom: "1px solid #ddd",
+    px: { xs: 2, sm: 4 },
+    py: 1, // compact padding
+  }}
+>
+  <Toolbar
+    sx={{
+      display: "flex",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      gap: 1,
+      minHeight: 64, // compact toolbar height
+    }}
+  >
+    {/* Logo + Title */}
+    <Box sx={{ display: "flex", alignItems: "center", gap: 4 }}>
+      <Box
+        component="img"
         src={logo}
         alt="Logo"
-        style={{ height: 60, margin: "1rem auto", display: "block" }}
+        sx={{
+          height: 70,   // smaller logo height
+          width: "auto",
+          objectFit: "contain",
+        }}
       />
       <Typography
-  variant="h4"
-  gutterBottom
-  align="center"
-  sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}
->
-        GitHub Users
+        variant="h6"
+        sx={{
+          fontWeight: 700,
+          letterSpacing: 0.5,
+          fontSize: { xs: 16, sm: 24 }, // smaller text
+           fontFamily: "Poppins, sans-serif",
+        }}
+      >
+        Explore GitHub Users
       </Typography>
+    </Box>
 
-      <SearchBar value={search} onChange={setSearch} placeholder="Search by name or company..." />
+    {/* Search + Sort */}
+    <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
+      <Paper
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          px: 1.5,
+          py: 0.3,
+          borderRadius: 2,
+          width: { xs: 250, sm: 300 }, // compact search
+          bgcolor: "#f5f5f5",
+        }}
+      >
+        <SearchIcon sx={{ color: "#5ea815", mr: 1 }} />
+        <SearchBar
+          placeholder="Search by name or company..."
+          value={search}
+          onChange={setSearch}
+        />
+      </Paper>
 
-      {error && <Alert severity="error">{error}</Alert>}
+      <FormControl
+        size="small"
+        sx={{
+          minWidth: 140,
+          ml: 1,
+          bgcolor: "#f5f5f5",
+          borderRadius: 2,
+        }}
+      >
+        <InputLabel id="sort-label"></InputLabel>
+        <Select
+          labelId="sort-label"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as SortOption)}
+          sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 500, fontSize: 14 }}
+        >
+          <MenuItem value="name">Name A-Z</MenuItem>
+          <MenuItem value="followers">Followers ↓</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+  </Toolbar>
+</AppBar>
 
-      {/* Total Users */}
-  <Typography variant="subtitle1"  sx={{ fontFamily:"'Poppins', sans-serif",fontWeight:600, mb: 0,mt:2  }}>
-    Total Users: {filteredUsers.length}
-  </Typography>
 
-      <Grid container spacing={3} mt={1}>
-        {filteredUsers.map((user) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
-            <UserCard user={user} />
+
+      <Container>
+        <Typography variant="subtitle1" sx={{ mb: 2 }}>
+          Total Users: {filteredUsers.length}
+        </Typography>
+
+        {/* Loading shimmer */}
+        {loading ? (
+          <Grid container spacing={3}>
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <Box key={idx} sx={{ height: 150, bgcolor: "#ddd", borderRadius: 2, flex: 1 }} />
+            ))}
           </Grid>
-        ))}
-      </Grid>
-    </Container>
+        ) : filteredUsers.length === 0 ? (
+          <Typography>No users found</Typography>
+        ) : (
+          <Grid container spacing={3}>
+            {filteredUsers.map((user) => (
+              <Grid item xs={12} sm={6} md={4} key={user.id}>
+                <UserCard user={user}>
+                  <IconButton onClick={() => toggleFavorite(user.id)}>
+                    {favorites.includes(user.id) ? <StarIcon color="warning" /> : <StarBorderIcon />}
+                  </IconButton>
+                </UserCard>
+              </Grid>
+            ))}
+          </Grid>
+        )}
+      </Container>
+    </Box>
   );
 };
 

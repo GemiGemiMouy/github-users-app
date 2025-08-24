@@ -10,12 +10,14 @@ import {
   Link,
   Tooltip,
 } from "@mui/material";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import PeopleIcon from "@mui/icons-material/People";
 import { User } from "../types/User";
 
 interface Props {
   user: User;
+  children?: React.ReactNode; // ✅ allow children
 }
 
 const popularCompanies = [
@@ -39,18 +41,19 @@ const UserCard: React.FC<Props> = ({ user }) => {
   return (
     <Card
       sx={{
-        borderRadius: 4,
-        border: "1px solid #e5e7eb",
+        borderRadius: 3,
+        border: "1px solid rgba(0,0,0,0.1)",
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
         minHeight: 340,
+        backgroundColor: "#ffffff",
         transition: "all 0.3s ease",
-        boxShadow: "0 4px 14px rgba(0,0,0,0.05)",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
         "&:hover": {
           transform: "translateY(-6px)",
-          boxShadow: "0 12px 24px rgba(0,0,0,0.1)",
+          boxShadow: "0 12px 24px rgba(0,0,0,0.12)",
         },
       }}
     >
@@ -68,8 +71,8 @@ const UserCard: React.FC<Props> = ({ user }) => {
           sx={{
             width: 96,
             height: 96,
-            border: "3px solid #48c55bff", // Indigo accent
-            boxShadow: "0 4px 10px rgba(99,102,241,0.2)",
+            border: "3px solid #5ea815",
+            boxShadow: "0 4px 10px rgba(94,168,21,0.2)",
           }}
         />
       </Box>
@@ -129,7 +132,7 @@ const UserCard: React.FC<Props> = ({ user }) => {
                 "&:hover": { color: "#5ea815" },
               }}
             >
-              <PeopleIcon fontSize="small" sx={{ mr: 0.5 }} /> {user.following}
+              <PersonAddIcon fontSize="small" sx={{ mr: 0.5 }} /> {user.following}
             </Link>
           </Tooltip>
         </Stack>
@@ -162,7 +165,7 @@ const UserCard: React.FC<Props> = ({ user }) => {
           }}
         >
           <GitHubIcon fontSize="small" sx={{ mr: 1 }} />
-          GitHub
+          View Profile
         </Link>
       </Box>
     </Card>
