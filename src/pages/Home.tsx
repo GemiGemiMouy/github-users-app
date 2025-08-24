@@ -77,7 +77,7 @@ const Home: React.FC = () => {
       }
     };
     fetchUsers();
-  }, [config]);
+  }, []);
 
   // Filter & sort users
   useEffect(() => {
