@@ -56,8 +56,8 @@ Check out the live version here:
 ```bash
 git clone https://github.com/GemiGemiMouy/github-users-app.git
 cd github-users-app
+```
 
----
 2. Install dependencies:
 
 ---
