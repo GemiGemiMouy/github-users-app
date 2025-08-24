@@ -68,7 +68,7 @@ cd github-users-app
   REACT_APP_GITHUB_TOKEN=your_github_personal_access_token
 
 4. **Start server**
-```
+
 npm start    
   # or yarn start
 
