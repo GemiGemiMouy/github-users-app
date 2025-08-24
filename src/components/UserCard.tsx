@@ -67,7 +67,7 @@ const UserCard: React.FC<Props> = ({ user }) => {
           sx={{
             width: 96,
             height: 96,
-            border: "3px solid #6366f1", // Indigo accent
+            border: "3px solid #48c55bff", // Indigo accent
             boxShadow: "0 4px 10px rgba(99,102,241,0.2)",
           }}
         />
@@ -107,7 +107,7 @@ const UserCard: React.FC<Props> = ({ user }) => {
               alignItems: "center",
               color: "text.primary",
               fontWeight: 500,
-              "&:hover": { color: "#6366f1" },
+              "&:hover": { color: "#5ea815" },
             }}
           >
             <PeopleIcon fontSize="small" sx={{ mr: 0.5 }} /> {user.followers}
@@ -121,7 +121,7 @@ const UserCard: React.FC<Props> = ({ user }) => {
               alignItems: "center",
               color: "text.primary",
               fontWeight: 500,
-              "&:hover": { color: "#6366f1" },
+              "&:hover": { color: "#5ea815" },
             }}
           >
             <PeopleIcon fontSize="small" sx={{ mr: 0.5 }} /> {user.following}
@@ -139,17 +139,17 @@ const UserCard: React.FC<Props> = ({ user }) => {
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
-            border: "1px solid #6366f1",
+            border: "1px solid #5ea815",
             borderRadius: "12px",
             px: 3,
             py: 0.8,
             fontWeight: 600,
             fontSize: "0.9rem",
-            color: "#6366f1",
+            color: "#5ea815",
             fontFamily: "Poppins, sans-serif",
             transition: "0.3s",
             "&:hover": {
-              backgroundColor: "#6366f1",
+              backgroundColor: "#5ea815",
               color: "#fff",
               transform: "scale(1.05)",
             },

@@ -87,6 +87,11 @@ const Home: React.FC = () => {
 
       {error && <Alert severity="error">{error}</Alert>}
 
+      {/* Total Users */}
+  <Typography variant="subtitle1"  sx={{ fontFamily:"'Poppins', sans-serif",fontWeight:600, mb: 0,mt:2  }}>
+    Total Users: {filteredUsers.length}
+  </Typography>
+
       <Grid container spacing={3} mt={1}>
         {filteredUsers.map((user) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={user.id}>
