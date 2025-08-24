@@ -8,6 +8,7 @@ import {
   Stack,
   Chip,
   Link,
+  Tooltip,
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import PeopleIcon from "@mui/icons-material/People";
@@ -98,34 +99,39 @@ const UserCard: React.FC<Props> = ({ user }) => {
 
         {/* Followers / Following */}
         <Stack direction="row" spacing={3} justifyContent="center" mt={2}>
-          <Link
-            href={`${user.html_url}?tab=followers`}
-            target="_blank"
-            underline="none"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              color: "text.primary",
-              fontWeight: 500,
-              "&:hover": { color: "#5ea815" },
-            }}
-          >
-            <PeopleIcon fontSize="small" sx={{ mr: 0.5 }} /> {user.followers}
-          </Link>
-          <Link
-            href={`${user.html_url}?tab=following`}
-            target="_blank"
-            underline="none"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              color: "text.primary",
-              fontWeight: 500,
-              "&:hover": { color: "#5ea815" },
-            }}
-          >
-            <PeopleIcon fontSize="small" sx={{ mr: 0.5 }} /> {user.following}
-          </Link>
+          <Tooltip title="Followers" arrow>
+            <Link
+              href={`${user.html_url}?tab=followers`}
+              target="_blank"
+              underline="none"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: "text.primary",
+                fontWeight: 500,
+                "&:hover": { color: "#5ea815" },
+              }}
+            >
+              <PeopleIcon fontSize="small" sx={{ mr: 0.5 }} /> {user.followers}
+            </Link>
+          </Tooltip>
+
+          <Tooltip title="Following" arrow>
+            <Link
+              href={`${user.html_url}?tab=following`}
+              target="_blank"
+              underline="none"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                color: "text.primary",
+                fontWeight: 500,
+                "&:hover": { color: "#5ea815" },
+              }}
+            >
+              <PeopleIcon fontSize="small" sx={{ mr: 0.5 }} /> {user.following}
+            </Link>
+          </Tooltip>
         </Stack>
       </CardContent>
 
