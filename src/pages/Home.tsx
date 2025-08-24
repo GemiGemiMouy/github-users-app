@@ -209,27 +209,85 @@ const Home: React.FC = () => {
         </Typography>
 
         {/* Loading shimmer */}
-        {loading ? (
-          <Grid container spacing={3}>
-            {Array.from({ length: 6 }).map((_, idx) => (
-              <Box key={idx} sx={{ height: 150, bgcolor: "#ddd", borderRadius: 2, flex: 1 }} />
-            ))}
-          </Grid>
-        ) : filteredUsers.length === 0 ? (
-          <Typography>No users found</Typography>
-        ) : (
-          <Grid container spacing={3}>
-            {filteredUsers.map((user) => (
-              <Grid item xs={12} sm={6} md={4} key={user.id}>
-                <UserCard user={user}>
-                  <IconButton onClick={() => toggleFavorite(user.id)}>
-                    {favorites.includes(user.id) ? <StarIcon color="warning" /> : <StarBorderIcon />}
-                  </IconButton>
-                </UserCard>
-              </Grid>
-            ))}
-          </Grid>
-        )}
+       {loading ? (
+  <Grid container spacing={3}>
+    {Array.from({ length: 6 }).map((_, idx) => (
+      <Grid item xs={12} sm={6} md={4} key={idx}>
+        <Paper
+          sx={{
+            p: 2,
+            borderRadius: 2,
+            height: 200,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            overflow: "hidden",
+            position: "relative",
+            bgcolor: "#e0e0e0",
+          }}
+          elevation={1}
+        >
+          {/* Avatar Skeleton */}
+          <Box
+            sx={{
+              width: 64,
+              height: 64,
+              borderRadius: "50%",
+              bgcolor: "#cfcfcf",
+              mb: 2,
+            }}
+          />
+
+          {/* Name Skeleton */}
+          <Box sx={{ width: "60%", height: 25, bgcolor: "#cfcfcf", mb: 1, borderRadius: 1 }} />
+
+          {/* Company Skeleton */}
+          <Box sx={{ width: "40%", height: 20, bgcolor: "#cfcfcf", mb: 1, borderRadius: 1 }} />
+
+          {/* Followers/Following Skeleton */}
+          <Box sx={{ display: "flex", gap: 2, mb: 1 }}>
+            <Box sx={{ width: 50, height: 20, bgcolor: "#cfcfcf", borderRadius: 1 }} />
+            <Box sx={{ width: 50, height: 20, bgcolor: "#cfcfcf", borderRadius: 1 }} />
+          </Box>
+
+          {/* Favorite Icon Skeleton */}
+          <Box sx={{ width: 32, height: 32, borderRadius: "50%", bgcolor: "#cfcfcf" }} />
+
+          {/* Shimmer overlay */}
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: "-150px",
+              height: "100%",
+              width: "150px",
+              background:
+                "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)",
+              animation: "shimmer 1.5s infinite",
+            }}
+          />
+        </Paper>
+      </Grid>
+    ))}
+  </Grid>
+) : filteredUsers.length === 0 ? (
+  <Typography>No users found</Typography>
+) : (
+  <Grid container spacing={3}>
+    {filteredUsers.map((user) => (
+      <Grid item xs={12} sm={6} md={4} key={user.id}>
+        <UserCard user={user}>
+          <IconButton onClick={() => toggleFavorite(user.id)}>
+            {favorites.includes(user.id) ? <StarIcon color="warning" /> : <StarBorderIcon />}
+          </IconButton>
+        </UserCard>
+      </Grid>
+    ))}
+  </Grid>
+)}
+
+        
       </Container>
     </Box>
   );
