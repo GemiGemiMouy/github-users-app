@@ -46,7 +46,6 @@ Check out the live version here:
 - **Sort users**: choose "Name A-Z" or "Followers ↓" from the dropdown.  
 - **View Profile**: click the GitHub icon or "View Profile" button on a card.  
 - **Followers / Following**: click the numbers to open GitHub followers/following pages.  
-- **Favorites**: click the star icon to mark/unmark a user (saved in local storage).  
 
 ---
 
@@ -65,7 +64,7 @@ cd github-users-app
   yarn install
 
 3. **Create file .env**
-```
+
   REACT_APP_GITHUB_TOKEN=your_github_personal_access_token
 
 4. **Start server**
